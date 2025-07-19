@@ -53,7 +53,8 @@ Hooks.once('ready', () => {
 
 const userConfigSectionBySystem = {
   'default': 'section.window-content > div footer',
-  'pf2e': 'section.tab[data-tab=core] > div footer'
+  'pf2e': 'section.tab[data-tab=core] > div footer',
+  'pirateborg': 'section.window-content > div fieldset:last-child'
 };
 
 Hooks.on('renderUserConfig', (app, html) => {
@@ -68,6 +69,5 @@ Hooks.on('renderUserConfig', (app, html) => {
         <p class='hint'>${game.i18n.localize(`${MODULE_ID}.userConfigurationHint`)}</p>
       </div>
     </fieldset>`;
-
   html.querySelector(userConfigSectionBySystem[game.system.id] ?? userConfigSectionBySystem.default).insertAdjacentHTML('beforebegin', input);
 });

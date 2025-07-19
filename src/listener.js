@@ -200,8 +200,7 @@ export class Listener extends EventTarget {
   }
 
   async _onMessageCreated(data) {
-    const fvttUser = game.users.find((u) => u.getFlag(MODULE_ID, 'did') === data.author.id);
-
+    const fvttUser = game.users.find((u) => u.getFlag(MODULE_ID, 'did') === data.author.username);
     return ChatMessage.create({
       author: fvttUser?.id,
       content: await this._getRenderContent(data),
@@ -211,7 +210,7 @@ export class Listener extends EventTarget {
           messageId: data.id
         }
       },
-      speaker: { actor: fvttUser?.character, alias: fvttUser?.name ?? data.member.nick ?? data.author.username },
+      speaker: { actor: fvttUser?.character, alias: fvttUser?.character?.name ?? fvttUser?.name ?? data?.member?.nick ?? data?.author?.username },
       style: 1
     });
   }
@@ -235,7 +234,7 @@ export class Listener extends EventTarget {
   }
 
   async _onReceive(data) {
-    log('Received message', data);
+    log('Received message (hi)', data);
     const { d, op, s, t } = data;
 
     switch (op) {
@@ -288,7 +287,7 @@ export class Listener extends EventTarget {
     }
 
     if (this.clientState.status !== 'ready') return;
-
+    	  
     if (t === 'GUILD_CREATE') {
       this._onGuildJoin(d);
     } else {
